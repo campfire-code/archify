@@ -1,3 +1,58 @@
+# 交互式图解生成器（Archify）
+
+> 篝火出品 · 收录于篝火 App 应用区。本仓库 fork 自 [tt-a1i/archify](https://github.com/tt-a1i/archify)，版权归原作者，按 MIT 许可证分发。
+
+把你想理解、规划或分享的东西，让 AI 画成一个可以点击探索的网页图解：架构图、流程图、时序图等，输出是单个 HTML 文件，发给别人用浏览器就能打开。
+
+## 能做什么
+
+- 支持 10 类图：架构、工作流、时序、数据流、生命周期（状态）、数据库表关系（ERD）、类图、树形结构、时间线、耗时瀑布图。
+- 只给一段文字描述就能画；也可以让 AI 读一个代码仓库，生成有源码出处的架构图。
+- 输出为独立 HTML，带深色/浅色主题，可追踪路径、点开节点看详情，并可导出图片、SVG、动画（WebM）。
+- 对话式修改：“加上 Redis”“把认证模块移到左边”“高亮缓存未命中的路径”。
+- 生成后自动做结构校验，再交付；也可用于行程、学习路线等日常主题（上游有示例）。
+
+## 怎么安装（Claude Code）
+
+压缩包 `archify-campfire.zip` 解压后的结构：
+
+```
+skills/
+  archify/   （内含 SKILL.md、bin、renderers、references 等）
+README.md
+LICENSE
+```
+
+1. 到本仓库 [Releases](https://github.com/campfire-code/archify/releases/latest) 下载 `archify-campfire.zip` 并解压。
+2. 把 `skills/archify` 整个文件夹复制到 `~/.claude/skills/`（没有就新建）。
+   - macOS / Linux：`mkdir -p ~/.claude/skills && cp -R skills/archify ~/.claude/skills/`
+   - Windows：复制到 `C:\Users\你的用户名\.claude\skills\`
+3. 确认 `~/.claude/skills/archify/SKILL.md` 存在，重启 Claude Code。
+
+也可以用上游的一条命令安装（需要 Node 和网络）：`npx skills add tt-a1i/archify -g`。Cursor、Codex CLI、OpenCode 的装法见下方上游原文。
+
+## 怎么用
+
+装好后直接描述想画的东西，或者说“用 Archify 画……”。示例说法：
+
+- “用 Archify 画一个请求流程：浏览器调用 API，API 先查 Redis，没命中就查 PostgreSQL 并回填缓存”
+- “分析这个仓库，用 archify 画一张高层运行时架构图，8 到 12 个核心组件，一条主路径”
+- 画好后继续说：“加上认证”“切换成浅色主题”
+
+## 前置条件
+
+- Node 18 或更新版本（技能目录里 `package.json` 声明 `>=18`），用于运行校验和渲染脚本。
+- 不需要 API 密钥。
+- 注意：交付图解时，技能会联网读取上游的一个固定版本清单，只用来提示“有新版本”，不会自动下载或安装（上游 README 说明）。
+
+## 和上游的区别
+
+只加了本段中文说明与打包（zip 只含技能目录 `archify/`，不含网站、测试、实验和宣传素材），代码未改。
+
+---
+
+以下为上游原始说明（原文未改动）：
+
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/assets/archify-lockup-dark.svg" />
